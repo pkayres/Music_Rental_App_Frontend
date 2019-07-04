@@ -15,7 +15,7 @@ import Brass from './Brass'
 import Keyboards from './Keyboards'
 import Drums from './Drums'
 import ShowPage from './ShowPage'
-import Rent from './Rent'
+import ReviewForm from './ReviewForm'
 
 
 
@@ -61,7 +61,7 @@ class App extends Component {
       <Grid>
 
         <NavBar currentUser={this.props.currentUser} logOut={this.props.logOut}/>
-        
+
         <Grid.Row centered>
           <Switch>
               <Route path="/listings/:id" component={ShowPage}/>
@@ -75,7 +75,7 @@ class App extends Component {
               <Route path="/basses" component={Basses}/>
               <Route path="/keyboards" component={Keyboards}/>
               <Route path="/brass" component={Brass}/>
-              <Route path="/rent" component={Rent}/>
+              <Route path="/rent" component={ReviewForm}/>
               <Route render={() => <Redirect to = "/home"/>}/>
     			</Switch>
         </Grid.Row>

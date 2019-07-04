@@ -6,9 +6,10 @@ import { connect } from 'react-redux'
 
 class ShowPage extends Component {
 
-  rentClick = (listing_id) => {
-    this.props.rentInstrument(listing_id)
+  rentClick = (listing) => {
+    this.props.rentInstrument(listing.id)
     this.props.history.push(`/users/${this.props.currentUser.id}`)
+    this.props.addToRentals(listing)
   }
 
   render() {
@@ -48,7 +49,7 @@ class ShowPage extends Component {
                   ?
                   <Button color="red">Not Available</Button>
                   :
-                  <Button color="yellow" onClick={() => this.rentClick(listing.id)}>Rent!</Button>
+                  <Button color="yellow" onClick={() => this.rentClick(listing)}>Rent!</Button>
                 }
               </Grid.Column>
             </Grid.Row>

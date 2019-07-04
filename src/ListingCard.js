@@ -7,8 +7,18 @@ import {Link} from 'react-router-dom'
 class ListingCard extends Component {
 
   handleClick = event => {
+    fetch(`http://localhost:3000/listings/${this.props.listing.id}`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(response => console.log(response))
     this.props.history.push(`/listings/${this.props.listing.id}`)
   }
+
 
   render() {
     return (

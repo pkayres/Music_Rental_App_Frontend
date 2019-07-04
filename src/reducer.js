@@ -14,6 +14,11 @@ function reducer (state= defaultState, action){
       return {...state, currentUser: null}
     case "GET_LISTING":
       return {...state, listings:  action.payload}
+    case "ADD_RATING":
+      return {
+          ...state,
+          ratings: [...state.ratings, action.payload]
+      }
     case "GET_RATINGS":
       return {...state, ratings: action.payload}
     case "RENT_INSTRUMENT":
@@ -26,7 +31,19 @@ function reducer (state= defaultState, action){
         }
       })
       return {...state, listings: match}
-
+    case "ADD_TO_RENTALS" :
+      return {
+          ...state,
+          userRentals: [...state.userRentals, action.payload]
+      }
+    case "DELETE_FROM_RENTALS":
+      const listingMatch = state.userRentals.filter(listing => {
+        if(listing.id !== action.payload.id){
+          return listing
+        }
+      })
+      return {...state,
+      userRentals: listingMatch}
     default:
       return state
   }

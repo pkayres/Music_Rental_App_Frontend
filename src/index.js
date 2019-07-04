@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { createStore } from 'redux'
 import reducer from './reducer'
 import { Provider } from 'react-redux'
+import { combineForms } from 'react-redux-form';
 
 
 
