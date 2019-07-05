@@ -7,7 +7,7 @@ let currentListing = ''
 class Profile extends Component {
 
   state = {
-    rater: this.props.currentUser.id,
+    rater: this.props.currentUser!==null ? this.props.currentUser.id : null,
     stars: '',
     review:'',
     rated: null
@@ -34,7 +34,19 @@ class Profile extends Component {
     })
   }
 
-
+  removeListing = (userListing) => {
+    fetch(`http://localhost:3000/listings/${userListing.id}`, {
+      method: 'DELETE',
+      headers:{
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(listing => {
+      this.props.deleteListing(userListing)}
+  )
+  }
 
 
 
@@ -55,29 +67,38 @@ class Profile extends Component {
         })
     }).then(response => response.json())
       .then(rating => {
-        console.log(rating)
          this.props.addRating(rating);
          this.setState({ modalOpen: false, modalClose: true})
          this.props.deleteFromRentals(currentListing)
-         //if they return they take you to the model but delete the association
       })
   }
 
 
   render() {
-    const { user } = this.props.currentUser.id
     const { rating } = this.state
+    console.log(this.props.currentUser)
     return (
+      <div>
+      {
+
+        this.props.currentUser !== null
+
+        ?
+
       <Segment>
       <Grid columns={2} centered>
         <Grid.Column width={6}>
           <div class="ui card">
+
             <div class="image">
               <img src={this.props.currentUser.image}/>
             </div>
             <div class="content">
               <a class="header">{this.props.currentUser.name}</a>
             </div>
+            <Link to="/newlisting" >
+              <Button color="green">Create Listing</Button>
+            </Link>
           </div>
           <h3>Owner Reviews:</h3>
         {
@@ -104,6 +125,7 @@ class Profile extends Component {
             this.props.currentUser.listings.map(userListing => {
             return (
                 <Card.Group centered>
+              <Button onClick={() => this.removeListing(userListing)} color="blue">Remove Listing</Button>
               <Link to ={`/listings/${userListing.id}`}>
                 <Card key={userListing.id}>
                   <Card.Content>
@@ -150,20 +172,19 @@ class Profile extends Component {
                               <Image src={userRental.image} floated='right' size='small'/>
                               <Modal.Description>
                                 <Header>How was your experience?</Header>
-
                                   <Form onSubmit={this.handleSubmit}>
                                     <div>
                                         <div>Rating:{this.state.stars}</div>
-                                        <input type='range' min={0} max={5} value={this.state.stars} onChange={this.handleChange} />
+                                        <input type='range' min={0} max={5} value={this.state.stars} required="required" onChange={this.handleChange} />
                                         <br />
-                                        <Rating rating={this.state.stars} maxRating={5} />
+                                        <Rating rating={this.state.stars}  maxRating={5} />
                                       </div>
                                       <Form.Field >
                                           <input  hidden placeholder="Username" name="rated" required="required" value={userRental.user_id} onChange={this.handleInput}/>
                                       </Form.Field>
                                       <Form.Field>
                                       <label>Review: </label>
-                                        <input placeholder="Review" name="review"  value={this.state.review} onChange={this.handleInput} />
+                                        <input placeholder="Review" name="review" required="required" value={this.state.review} onChange={this.handleInput} />
                                       </Form.Field>
                                       <Button  type="submit">Submit </Button>
                                   </Form>
@@ -180,7 +201,12 @@ class Profile extends Component {
             }
       </Grid>
       <Divider vertical></Divider>
+
       </Segment>
+      :
+      null
+    }
+    </div>
     );
   }
 }
@@ -206,6 +232,9 @@ function mapDispatchToProps(dispatch){
     },
     deleteFromRentals:(listing) => {
       dispatch({type: "DELETE_FROM_RENTALS", payload: listing})
+    },
+    deleteListing: (listing) => {
+      dispatch({ type: "DELETE_LISTING", payload: listing})
     }
   }
 }

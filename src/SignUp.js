@@ -59,7 +59,7 @@ class SignUp extends Component {
         <input placeholder="User Name" name="name" required="required" value={this.state.name} onChange={this.handleChange}/>
       </Form.Field>
       <Form.Field>
-        <label>Add Avatar Image:</label>
+        <label>Avatar Image:</label>
         <input placeholder="Image URL" name="image" required="required" value={this.state.image} onChange={this.handleChange}/>
       </Form.Field>
       <Form.Field>

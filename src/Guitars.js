@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {Link} from 'react-router-dom'
-import { Card, Image, Button, Grid } from 'semantic-ui-react'
+import { Card, Image, Button, Grid, Label } from 'semantic-ui-react'
 
 class Guitars extends Component {
 
@@ -24,7 +24,7 @@ class Guitars extends Component {
                          {
                            listing.rented
                            ?
-                           <Button color="red">Not Available</Button>
+                           <Label color="red">Not Available</Label>
                            :
                            <Button color="yellow">Rent!</Button>
                          }

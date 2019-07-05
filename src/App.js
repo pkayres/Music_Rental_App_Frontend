@@ -15,7 +15,8 @@ import Brass from './Brass'
 import Keyboards from './Keyboards'
 import Drums from './Drums'
 import ShowPage from './ShowPage'
-import ReviewForm from './ReviewForm'
+import NewListing from './NewListing'
+
 
 
 
@@ -75,7 +76,7 @@ class App extends Component {
               <Route path="/basses" component={Basses}/>
               <Route path="/keyboards" component={Keyboards}/>
               <Route path="/brass" component={Brass}/>
-              <Route path="/rent" component={ReviewForm}/>
+              <Route path="/newlisting" component={NewListing}/>
               <Route render={() => <Redirect to = "/home"/>}/>
     			</Switch>
         </Grid.Row>

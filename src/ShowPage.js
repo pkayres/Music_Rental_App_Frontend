@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
 import {Redirect} from 'react-router'
-import { Card, Image, Button, Grid, Divider, Segment } from 'semantic-ui-react'
+import { Card, Image, Button, Grid, Divider, Segment, Label } from 'semantic-ui-react'
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 
 class ShowPage extends Component {
 
   rentClick = (listing) => {
-    this.props.rentInstrument(listing.id)
-    this.props.history.push(`/users/${this.props.currentUser.id}`)
-    this.props.addToRentals(listing)
+    // debugger
+      if( listing.user_id === this.props.currentUser.id){
+        alert("you can't do this MAN!!!")
+      } else {
+        this.props.addToRentals(listing)
+        this.props.rentInstrument(listing.id)
+        this.props.history.push(`/users/${this.props.currentUser.id}`)
+       }
   }
 
   render() {
@@ -47,9 +52,12 @@ class ShowPage extends Component {
                 {
                   listing.rented
                   ?
-                  <Button color="red">Not Available</Button>
+                  <Label color="red">Not Available</Label>
                   :
-                  <Button color="yellow" onClick={() => this.rentClick(listing)}>Rent!</Button>
+                  this.props.currentUser !== null ?
+                    <Button color="yellow" onClick={() => this.rentClick(listing)}>Rent!</Button>
+                    :
+                    null
                 }
               </Grid.Column>
             </Grid.Row>

@@ -15,14 +15,12 @@ class ListingCard extends Component {
       }
     })
     .then(response => response.json())
-    .then(response => console.log(response))
     this.props.history.push(`/listings/${this.props.listing.id}`)
   }
 
 
   render() {
     return (
-
         <Card onClick={this.handleClick} key={this.props.listing.id} >
           <Card.Content>
             <Card.Header>{this.props.listing.instrument_name}</Card.Header>
