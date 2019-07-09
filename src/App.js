@@ -5,7 +5,7 @@ import Login from './Login'
 import NavBar from './NavBar'
 import SignUp from './SignUp'
 import { connect } from 'react-redux'
-import { Grid } from 'semantic-ui-react'
+import { Grid, Header, Divider, Image, Segment } from 'semantic-ui-react'
 import MainContainer from './MainContainer'
 import Profile from './Profile'
 import Listing from './Listing'
@@ -16,8 +16,6 @@ import Keyboards from './Keyboards'
 import Drums from './Drums'
 import ShowPage from './ShowPage'
 import NewListing from './NewListing'
-
-
 
 
 
@@ -42,16 +40,21 @@ class App extends Component {
 				}
 			})
 		}
-    fetch('http://localhost:3000/listings')
-    .then(resp => resp.json())
-    .then(listings => {
-       this.props.getListings(listings)
-    })
-    fetch('http://localhost:3000/ratings')
-    .then(resp => resp.json())
-    .then(ratings => {
-       this.props.getRatings(ratings)
-    })
+      fetch('http://localhost:3000/listings')
+      .then(resp => resp.json())
+      .then(listings => {
+         this.props.getListings(listings)
+      })
+      fetch('http://localhost:3000/ratings')
+      .then(resp => resp.json())
+      .then(ratings => {
+         this.props.getRatings(ratings)
+      })
+      fetch('http://localhost:3000/rents')
+      .then(resp => resp.json())
+      .then(rental => {
+        this.props.setUserRentals(rental)
+      })
 
 	}
 
@@ -61,9 +64,11 @@ class App extends Component {
     return (
       <Grid>
 
-        <NavBar currentUser={this.props.currentUser} logOut={this.props.logOut}/>
+      <NavBar currentUser={this.props.currentUser} logOut={this.props.logOut}/>
 
         <Grid.Row centered>
+
+
           <Switch>
               <Route path="/listings/:id" component={ShowPage}/>
     					<Route path="/login" component={Login}/>
@@ -111,6 +116,9 @@ function mapDispatchToProps(dispatch){
     },
     getRatings:(ratings) => {
       dispatch({ type: "GET_RATINGS", payload: ratings})
+    },
+    setUserRentals:(rental) => {
+      dispatch({ type: "SET_USER_RENTALS", payload: rental})
     }
 
   }

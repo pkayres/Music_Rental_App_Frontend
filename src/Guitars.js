@@ -1,42 +1,57 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {Link} from 'react-router-dom'
-import { Card, Image, Button, Grid, Label } from 'semantic-ui-react'
+import { Card, Image, Button, Grid, Label, Segment, Header } from 'semantic-ui-react'
 
 class Guitars extends Component {
 
 
   render() {
     return (
-      <div>
-      <h1>Guitars</h1>
+
+      <Grid columns={2} stackable className="fill-content">
+          <Segment>
+            <div class="ui inverted stripe segment">
+              <Header size='huge' textAlign='center'>Guitar Rentals </Header>
+            </div>
+          <Card.Group itemsPerRow={4} >
+
         {
           this.props.listings.map(listing => {
           if(listing.category === "guitars"){
-            return <Card.Group centered>
+            return  (
               <Link to ={`/listings/${listing.id}`}>
                  <Card key={listing.id}>
-                   <Card.Content>
-                     <Image src={listing.image} floated='right' size='small'/>
-                     <Card.Header>{listing.instrument_name}</Card.Header>
+                   <Card.Content textAlign="center">
+                     <Card.Header textAlign="center">{listing.instrument_name}</Card.Header>
+                     <Image centered src={listing.image} size='small'/>
                      <Card.Description>
+                       <p>{listing.description}</p>
                        <p>Price/per day:${listing.price}</p>
                          {
                            listing.rented
                            ?
-                           <Label color="red">Not Available</Label>
+                           <Label as='a' basic color="red" pointing>
+                             Not Available
+                           </Label>
                            :
-                           <Button color="yellow">Rent!</Button>
+                           <Label as='a' color="yellow" ribbon>
+                             Rent!
+                           </Label>
                          }
                      </Card.Description>
                    </Card.Content>
                  </Card>
-                 </Link>
-               </Card.Group>
+              </Link>
+            );
           }
         })
       }
-      </div>
+
+      </Card.Group>
+      </Segment>
+    </Grid>
+
     );
   }
 }

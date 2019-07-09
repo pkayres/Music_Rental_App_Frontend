@@ -1,41 +1,51 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Card, Image, Button, Grid } from 'semantic-ui-react'
+import { Card, Image, Button, Grid, Header, Label } from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 
 class Brass extends Component {
   render() {
     return (
+      <Grid columns={2} stackable className="fill-content">
+        <div class="ui inverted stripe segment">
+          <Header size='huge' textAlign='center'> Brass Rentals </Header>
+        </div>
+        <Card.Group itemsPerRow={4}  >
 
-      <div>
-      <h1>Brass</h1>
-        {
-          this.props.listings.map(listing => {
-          if(listing.category === "brass"){
-            return <Card.Group centered>
-              <Link to ={`/listings/${listing.id}`}>
-                 <Card key={listing.id}>
-                   <Card.Content>
-                     <Image src={listing.image} floated='right' size='small'/>
-                     <Card.Header>{listing.instrument_name}</Card.Header>
-                     <Card.Description>
-                       <p>Price/per day: ${listing.price}</p>
-                         {
-                           listing.rented
-                           ?
-                           <Button color="red">Not Available</Button>
-                           :
-                           <Button color="yellow">Rent!</Button>
-                         }
-                     </Card.Description>
-                   </Card.Content>
-                 </Card>
-               </Link>
-               </Card.Group>
-          }
-        })
+      {
+        this.props.listings.map(listing => {
+        if(listing.category === "brass"){
+          return  (
+            <Link to ={`/listings/${listing.id}`}>
+               <Card key={listing.id}>
+                   <Card.Content textAlign="center">
+                     <Card.Header textAlign="center">{listing.instrument_name}</Card.Header>
+                     <Image centered src={listing.image} size='small'/>
+                   <Card.Description>
+                     <p>{listing.description}</p>
+                     <p>Price/per day:${listing.price}</p>
+                       {
+                         listing.rented
+                         ?
+                         <Label as='a' basic color="red" pointing>
+                           Not Available
+                         </Label>
+                         :
+                         <Label as='a' color="yellow" ribbon>
+                           Rent!
+                         </Label>
+                       }
+                   </Card.Description>
+                 </Card.Content>
+               </Card>
+            </Link>
+          );
+        }
+      })
       }
-      </div>
+
+      </Card.Group>
+      </Grid>
     );
   }
 }

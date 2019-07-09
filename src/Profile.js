@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Card, Image, Button, Grid, Divider, Segment, Rating, Modal, Header, Form, Input, Select, TextArea, Icon } from 'semantic-ui-react'
+import { Card, Image, Button, Grid, Divider, Segment, Rating, Modal, Header, Form, Input, Select, TextArea, Icon, Label } from 'semantic-ui-react'
 
 let currentListing = ''
 class Profile extends Component {
 
   state = {
-    rater: this.props.currentUser!==null ? this.props.currentUser.id : null,
+    rater: this.props.currentUser !== null ? this.props.currentUser.id : null,
     stars: '',
     review:'',
     rated: null
@@ -48,10 +48,6 @@ class Profile extends Component {
   )
   }
 
-
-
-
-
   handleSubmit = (event) => {
     event.preventDefault();
     fetch('http://localhost:3000/ratings', {
@@ -67,40 +63,44 @@ class Profile extends Component {
         })
     }).then(response => response.json())
       .then(rating => {
+        console.log(rating)
          this.props.addRating(rating);
          this.setState({ modalOpen: false, modalClose: true})
          this.props.deleteFromRentals(currentListing)
       })
+    fetch(`http://localhost:3000/rents/${currentListing.rent.id}`, {
+      method: 'DELETE'
+    })
   }
 
 
   render() {
     const { rating } = this.state
-    console.log(this.props.currentUser)
+    // debugger
     return (
       <div>
       {
-
         this.props.currentUser !== null
 
         ?
 
-      <Segment>
       <Grid columns={2} centered>
         <Grid.Column width={6}>
           <div class="ui card">
-
             <div class="image">
               <img src={this.props.currentUser.image}/>
             </div>
             <div class="content">
               <a class="header">{this.props.currentUser.name}</a>
             </div>
-            <Link to="/newlisting" >
-              <Button color="green">Create Listing</Button>
-            </Link>
           </div>
-          <h3>Owner Reviews:</h3>
+          <div>
+          <Link to="/newlisting" >
+            <Button color="green">Create Listing</Button>
+          </Link>
+          </div>
+          <Header size='huge'>Owner Reviews:</Header>
+          <Segment raised style={{ overflow: 'auto', maxHeight: '27em' }}>
         {
           this.props.currentUser.received_ratings.map(ratings => {
             return (
@@ -118,42 +118,59 @@ class Profile extends Component {
           )
           })
         }
+      </Segment>
     	</Grid.Column>
       <Grid.Column>
-        <h3>Currently Leasing:</h3>
+        <Header size='huge'>Currently Leasing:</Header>
+        <Segment raised style={{ overflow: 'auto', maxWidth: '40em', maxHeight: '40em' }}>
+          <Card.Group centered>
           {
             this.props.currentUser.listings.map(userListing => {
             return (
-                <Card.Group centered>
-              <Button onClick={() => this.removeListing(userListing)} color="blue">Remove Listing</Button>
-              <Link to ={`/listings/${userListing.id}`}>
+              <div>
+                <Link to ={`/listings/${userListing.id}`}>
                 <Card key={userListing.id}>
                   <Card.Content>
-                    <Image src={userListing.image} floated='right' size='small'/>
                     <Card.Header>{userListing.instrument_name}</Card.Header>
+                    <Image src={userListing.image} size='small'/>
                     <Card.Description>
                       <p>Price: ${userListing.price}</p>
                         {
                           userListing.rented
                           ?
-                          <Button color="red">Rented</Button>
+                          <Label as='a' basic color="red" pointing>
+                            Currently Rented
+                          </Label>
                           :
-                          <Button color="yellow">Available</Button>
+                          <Label as='a' color="yellow" ribbon>
+                            Available
+                          </Label>
                         }
                     </Card.Description>
                   </Card.Content>
                 </Card>
-              </Link>
-              </Card.Group>
+                </Link>
+                <Button onClick={() => this.removeListing(userListing)} color="blue">Remove Listing</Button>
+              </div>
+
+
             )
             })
           }
+          </Card.Group>
+        </Segment>
           </Grid.Column>
-          <h3>Currently Renting:</h3>
+          <Divider horizontal></Divider>
+          <Header size='huge'>Currently Renting:</Header>
+           <Card.Group >
             {
+              this.props.currentUser !== null
+              ?
               this.props.userRentals.map(userRental => {
                return(
-                 <Card.Group centered>
+                 userRental.rent.user_id === this.props.currentUser.id
+                 ?
+
                   <Card key={userRental.id}>
                     <Card.Content>
                       <Image src={userRental.image} floated='right' size='small'/>
@@ -166,10 +183,10 @@ class Profile extends Component {
                             dimmer
                             size='small'
                           >
-                            <Header> {userRental.instrument_name} </Header>
+                            <Header> {currentListing.instrument_name} </Header>
 
                             <Modal.Content>
-                              <Image src={userRental.image} floated='right' size='small'/>
+                              <Image src={currentListing.image} floated='right' size='small'/>
                               <Modal.Description>
                                 <Header>How was your experience?</Header>
                                   <Form onSubmit={this.handleSubmit}>
@@ -180,7 +197,7 @@ class Profile extends Component {
                                         <Rating rating={this.state.stars}  maxRating={5} />
                                       </div>
                                       <Form.Field >
-                                          <input  hidden placeholder="Username" name="rated" required="required" value={userRental.user_id} onChange={this.handleInput}/>
+                                          <input  hidden placeholder="Username" name="rated" required="required" value={currentListing.user_id} onChange={this.handleInput}/>
                                       </Form.Field>
                                       <Form.Field>
                                       <label>Review: </label>
@@ -190,26 +207,29 @@ class Profile extends Component {
                                   </Form>
                                 </Modal.Description>
                             </Modal.Content>
-
                           </Modal>
                       </Card.Description>
                     </Card.Content>
                   </Card>
-                </Card.Group>
+
+                :
+                null
               )
               })
+              :
+              null
             }
+        </Card.Group>
       </Grid>
-      <Divider vertical></Divider>
 
-      </Segment>
       :
       null
     }
+
     </div>
-    );
+  ) // return of component
   }
-}
+} // end of the component
 
 
 

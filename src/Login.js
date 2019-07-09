@@ -46,7 +46,7 @@ class Login extends Component {
         </Form.Field>
         <Form.Field >
           <label>Password</label>
-          <input placeholder="Password" name="password" required="required" value={this.state.password} onChange={this.handleChange} />
+          <input type='password' placeholder="Password" name="password" required="required" value={this.state.password} onChange={this.handleChange} />
         </Form.Field >
           <Button type="Submit">Login</Button>
         </Form>

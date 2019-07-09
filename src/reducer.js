@@ -2,7 +2,8 @@ const defaultState = {
   currentUser: null,
   listings: [],
   ratings: [],
-  userRentals: []
+  userRentals: [],
+  addedToUserRental: false
 }
 
 // reducer is used to control changes in state, what ever is returned from reducer becomes state
@@ -32,6 +33,15 @@ function reducer (state= defaultState, action){
       })
 
       return {...state, listings: match}
+    case "SET_USER_RENTALS":
+    // debugger
+      const rentals = action.payload.map(rent => {
+            return rent.listing
+        })
+      return {
+          ...state,
+          userRentals: rentals
+      }
     case "ADD_TO_RENTALS":
       const matchRental = state.listings.map(listing => {
         if(listing.user_id !== action.payload.user_id)
@@ -39,13 +49,12 @@ function reducer (state= defaultState, action){
       })
       return {
           ...state,
-          userRentals: [...state.userRentals, action.payload]
+          userRentals: [...state.userRentals, action.payload],
+          addedToUserRental: true
       }
     case "DELETE_FROM_RENTALS":
       const listingMatch = state.userRentals.filter(listing => {
-        if(listing.id !== action.payload.id){
-          return listing
-        }
+        return listing.id !== action.payload.id
       })
       return {...state, userRentals: listingMatch}
     case "DELETE_LISTING":

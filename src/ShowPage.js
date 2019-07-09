@@ -7,18 +7,35 @@ import { connect } from 'react-redux'
 class ShowPage extends Component {
 
   rentClick = (listing) => {
+
     // debugger
       if( listing.user_id === this.props.currentUser.id){
-        alert("you can't do this MAN!!!")
+        alert("You can't rent your own instrument!")
       } else {
+        fetch('http://localhost:3000/rents', {
+          method:'POST',
+          headers:{
+            'Content-Type':'application/json'
+          },
+          body: JSON.stringify({
+             "listing_id": listing.id,
+             "user_id": this.props.currentUser.id
+            })
+        }).then(response => response.json())
+          .then(rent => {
+            listing.rent = rent
         this.props.addToRentals(listing)
         this.props.rentInstrument(listing.id)
         this.props.history.push(`/users/${this.props.currentUser.id}`)
-       }
+      })
+     }
   }
 
-  render() {
 
+
+
+
+  render() {
     return (
       <div>
         {
@@ -89,9 +106,7 @@ function mapDispatchToProps(dispatch){
     },
     addToRentals:(rentObj) => {
       dispatch({ type: "ADD_TO_RENTALS", payload: rentObj })
-    }
-
-
+    },
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ShowPage)

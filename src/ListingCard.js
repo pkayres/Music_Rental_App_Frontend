@@ -21,20 +21,23 @@ class ListingCard extends Component {
 
   render() {
     return (
+
         <Card onClick={this.handleClick} key={this.props.listing.id} >
-          <Card.Content>
-            <Card.Header>{this.props.listing.instrument_name}</Card.Header>
-            <Image src={this.props.listing.image} floated='right' size='small'/>
-            <Card.Description>
+            <Card.Content textAlign="center">
+              <Card.Header textAlign="center">{this.props.listing.instrument_name}</Card.Header>
+              <Image centered src={this.props.listing.image} size='small'/>
+            <Card.Description textAlign="centered">
+              <p>{this.props.listing.description}</p>
               <p>Price/per day: ${this.props.listing.price}</p>
+
               {
                 this.props.listing.rented
                 ?
-                <Label as='a' color="red" tag>
+                <Label as='a' basic color="red" pointing>
                   Not Available
                 </Label>
                 :
-                <Label as='a' color="yellow" tag>
+                <Label as='a' color="yellow" ribbon>
                   Rent!
                 </Label>
               }
