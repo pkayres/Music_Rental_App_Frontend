@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { Form, Button, TextArea } from 'semantic-ui-react'
+import { Form, Button, TextArea, Header } from 'semantic-ui-react'
 
 class NewListing extends Component {
 
 
     state = {
-      user: this.props.currentUser.id,
+      user: this.props.currentUser !== null ? this.props.currentUser.id : null,
       renter: null,
       category: '',
       rented: false,
@@ -55,7 +55,12 @@ class NewListing extends Component {
 
     render() {
       return (
-        <Form onSubmit={this.handleSubmit}>
+        <div>
+
+        <Header size='huge'>Create New Rental</Header>
+        <br>
+        </br>
+        <Form size="huge" onSubmit={this.handleSubmit}>
         <Form.Field >
           <label>Instrument name:</label>
           <input placeholder="Instrument Name" name="instrument_name" required="required" value={this.state.instrument_name} onChange={this.handleChange}/>
@@ -90,8 +95,9 @@ class NewListing extends Component {
           <label>Price per day:</label>
            <input type='number' placeholder="Price" name="price" required="required" value={this.state.price} onChange={this.handleChange} />
         </Form.Field>
-          <Button type="submit">Submit </Button>
+          <Button color="blue" type="submit">Submit </Button>
         </Form>
+      </div>
       );
     }
 

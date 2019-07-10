@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ShowPage from './ShowPage'
-import { Card, Image, Button, Label} from 'semantic-ui-react'
+import { Card, Image, Button, Label, Icon} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 
 
@@ -21,14 +21,12 @@ class ListingCard extends Component {
 
   render() {
     return (
-
         <Card onClick={this.handleClick} key={this.props.listing.id} >
             <Card.Content textAlign="center">
               <Card.Header textAlign="center">{this.props.listing.instrument_name}</Card.Header>
               <Image centered src={this.props.listing.image} size='small'/>
             <Card.Description textAlign="centered">
               <p>{this.props.listing.description}</p>
-              <p>Price/per day: ${this.props.listing.price}</p>
 
               {
                 this.props.listing.rented
@@ -37,11 +35,18 @@ class ListingCard extends Component {
                   Not Available
                 </Label>
                 :
-                <Label as='a' color="yellow" ribbon>
+                <Button color="yellow">
                   Rent!
-                </Label>
+                </Button>
               }
+
             </Card.Description>
+          </Card.Content>
+          <Card.Content extra>
+            <a>
+              <Icon name='dollar sign' />
+              {this.props.listing.price} per/day
+            </a>
           </Card.Content>
         </Card>
 

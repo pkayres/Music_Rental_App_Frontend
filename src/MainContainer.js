@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Card, Segment, Fragment, Grid, Header } from 'semantic-ui-react'
+import { Card, Segment, Fragment, Grid, Header, Search } from 'semantic-ui-react'
 import assets from './assets/images/banner.png'
 import { connect } from 'react-redux'
 import ListingCard from './ListingCard'
 
+
 class MainContainer extends Component {
+
 
   render() {
     return (
@@ -12,11 +14,13 @@ class MainContainer extends Component {
       <Segment>
           <img class="ui fluid image" src={assets}/>
             <div class="ui inverted stripe segment">
-
               <Header size='huge' textAlign='center'>Rent from those who know their instrument best</Header>
-
             </div>
-          <Card.Group itemsPerRow={4} >
+            <div class="ui stripe segment">
+              <Header size='huge' textAlign='center'>Featured Rentals</Header>
+            </div>
+
+          <Card.Group itemsPerRow={4}>
           {
             this.props.listings === undefined
             ?

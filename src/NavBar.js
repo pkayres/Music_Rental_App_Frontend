@@ -8,9 +8,11 @@ class NavBar extends Component {
   render() {
     return (
 
-      <Menu size='large' secondary >
+      <Menu fluid size='huge' secondary >
         <Menu.Item header>
+          <Link to='/home'className="item">
          <img src={assets} />
+         </Link>
        </Menu.Item>
         <Menu.Item>
           <Link to='/home'className="item">

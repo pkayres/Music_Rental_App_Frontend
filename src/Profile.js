@@ -122,7 +122,7 @@ class Profile extends Component {
     	</Grid.Column>
       <Grid.Column>
         <Header size='huge'>Currently Leasing:</Header>
-        <Segment raised style={{ overflow: 'auto', maxWidth: '40em', maxHeight: '40em' }}>
+        <Segment raised style={{ overflow: 'auto', maxWidth: '40em', maxHeight: '50em' }}>
           <Card.Group centered>
           {
             this.props.currentUser.listings.map(userListing => {
@@ -152,8 +152,6 @@ class Profile extends Component {
                 </Link>
                 <Button onClick={() => this.removeListing(userListing)} color="blue">Remove Listing</Button>
               </div>
-
-
             )
             })
           }
@@ -201,7 +199,7 @@ class Profile extends Component {
                                       </Form.Field>
                                       <Form.Field>
                                       <label>Review: </label>
-                                        <input placeholder="Review" name="review" required="required" value={this.state.review} onChange={this.handleInput} />
+                                        <TextArea placeholder="Review" name="review" required="required" value={this.state.review} onChange={this.handleInput} />
                                       </Form.Field>
                                       <Button  type="submit">Submit </Button>
                                   </Form>

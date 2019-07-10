@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import {Redirect} from 'react-router'
-import { Card, Image, Button, Grid, Divider, Segment, Label } from 'semantic-ui-react'
+import { Card, Image, Button, Grid, Divider, Segment, Label, Icon, Header} from 'semantic-ui-react'
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 
 class ShowPage extends Component {
 
   rentClick = (listing) => {
-
-    // debugger
       if( listing.user_id === this.props.currentUser.id){
         alert("You can't rent your own instrument!")
       } else {
@@ -32,63 +30,53 @@ class ShowPage extends Component {
   }
 
 
-
-
-
   render() {
     return (
       <div>
         {
           this.props.listings.map(listing => {
             if(listing.id === parseInt(this.props.match.params.id)){
-            return <Grid columns={1} stackable className="fill-content">
-              <Grid.Row stretched>
-              <Grid.Column >
-                <div class="ui card">
-                  <div class="content">
-                    <a class="header">{listing.instrument_name}</a>
-                  </div>
-                  <div class="image">
-                    <img src={listing.image}/>
-                  </div>
-                </div>
-                 <Card >
-                   <Card.Content>
-                     <Card.Description>
-                       <h3>Price/per day: ${listing.price}</h3>
-                       <h3>Description</h3>
-                       <p>{listing.description}</p>
-                       <h3>Owner Notes:</h3>
-                       <p>{listing.user_notes}</p>
-                       </Card.Description>
-                     </Card.Content>
-                   </Card>
-              </Grid.Column>
-              <Divider vertical/>
-              <Grid.Column>
-                {
-                  listing.rented
-                  ?
-                  <Label color="red">Not Available</Label>
-                  :
-                  this.props.currentUser !== null ?
-                    <Button color="yellow" onClick={() => this.rentClick(listing)}>Rent!</Button>
-                    :
-                    null
-                }
-              </Grid.Column>
-            </Grid.Row>
-           </Grid>
-
-
-          }
-
-        })
-      }
-      </div>
+              return (
+              <Card.Group>
+                <Card>
+                    <Image src={listing.image} wrapped ui={false} />
+                    <Card.Content>
+                      <Card.Header>{listing.instrument_name}</Card.Header>
+                    </Card.Content>
+                    <Card.Content extra>
+                      <a>
+                        <Icon name='dollar sign' />
+                        {listing.price} per/day
+                      </a>
+                    </Card.Content>
+                  </Card>
+                  <Card>
+                      <Card.Content>
+                        <Card.Description>
+                          <Header centered>Description</Header>
+                          {listing.description}
+                        </Card.Description>
+                      </Card.Content>
+                      <Card.Content extra>
+                        {
+                          listing.rented
+                          ?
+                          <Label color="red">Not Available</Label>
+                          :
+                          this.props.currentUser !== null ?
+                          <Button color="yellow" onClick={() => this.rentClick(listing)}>Rent!</Button>
+                          :
+                          null
+                        }
+                      </Card.Content>
+                </Card>
+            </Card.Group>
+          )
+        }})
+        }
+    </div>
     );
   }
-
 }
 
 function mapStateToProps(state) {

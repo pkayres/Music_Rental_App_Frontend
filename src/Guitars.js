@@ -1,33 +1,34 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {Link} from 'react-router-dom'
-import { Card, Image, Button, Grid, Label, Segment, Header } from 'semantic-ui-react'
+import { Card, Image, Button, Grid, Label, Segment, Header, Icon } from 'semantic-ui-react'
 
 class Guitars extends Component {
 
 
   render() {
     return (
-
-      <Grid columns={2} stackable className="fill-content">
+        <Grid columns={2} stackable className="fill-content">
           <Segment>
             <div class="ui inverted stripe segment">
               <Header size='huge' textAlign='center'>Guitar Rentals </Header>
             </div>
           <Card.Group itemsPerRow={4} >
-
         {
           this.props.listings.map(listing => {
           if(listing.category === "guitars"){
             return  (
-              <Link to ={`/listings/${listing.id}`}>
+
                  <Card key={listing.id}>
                    <Card.Content textAlign="center">
                      <Card.Header textAlign="center">{listing.instrument_name}</Card.Header>
-                     <Image centered src={listing.image} size='small'/>
+                       <div>
+                         <Link to ={`/listings/${listing.id}`}>
+                           <Image centered src={listing.image} size='small'/>
+                         </Link>
+                       </div>
                      <Card.Description>
                        <p>{listing.description}</p>
-                       <p>Price/per day:${listing.price}</p>
                          {
                            listing.rented
                            ?
@@ -35,14 +36,22 @@ class Guitars extends Component {
                              Not Available
                            </Label>
                            :
-                           <Label as='a' color="yellow" ribbon>
-                             Rent!
-                           </Label>
+
+                             <Button color="yellow">Rent!</Button>
+
                          }
                      </Card.Description>
                    </Card.Content>
+                   <Card.Content extra>
+                     <a>
+                       <Icon name='dollar sign' />
+                       {listing.price} per/day
+                     </a>
+                   </Card.Content>
+
                  </Card>
-              </Link>
+
+
             );
           }
         })
@@ -50,8 +59,7 @@ class Guitars extends Component {
 
       </Card.Group>
       </Segment>
-    </Grid>
-
+      </Grid>
     );
   }
 }

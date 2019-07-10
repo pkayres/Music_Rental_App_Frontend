@@ -8,7 +8,6 @@ import { connect } from 'react-redux'
 import { Grid, Header, Divider, Image, Segment } from 'semantic-ui-react'
 import MainContainer from './MainContainer'
 import Profile from './Profile'
-import Listing from './Listing'
 import Guitars from './Guitars'
 import Basses from './Basses'
 import Brass from './Brass'
@@ -75,7 +74,6 @@ class App extends Component {
               <Route path="/signup" component={SignUp} />
               <Route path="/home" component={MainContainer}/>
               <Route path="/users/:id" component={Profile}/>
-              <Route path="/listings" component={Listing}/>
               <Route path="/guitars" component={Guitars}/>
               <Route path="/drums" component={Drums}/>
               <Route path="/basses" component={Basses}/>

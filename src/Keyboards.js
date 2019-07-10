@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {Link} from 'react-router-dom'
-import { Card, Image, Button, Grid, Header, Label } from 'semantic-ui-react'
+import { Card, Image, Button, Grid, Header, Label, Icon } from 'semantic-ui-react'
 
 class Keyboards extends Component {
   render() {
@@ -16,14 +16,16 @@ class Keyboards extends Component {
         this.props.listings.map(listing => {
         if(listing.category === "keyboards"){
           return  (
-            <Link to ={`/listings/${listing.id}`}>
                <Card key={listing.id}>
                    <Card.Content textAlign="center">
                      <Card.Header textAlign="center">{listing.instrument_name}</Card.Header>
-                     <Image centered src={listing.image} size='small'/>
+                       <div>
+                         <Link to ={`/listings/${listing.id}`}>
+                           <Image centered src={listing.image} size='small'/>
+                         </Link>
+                       </div>
                    <Card.Description>
                      <p>{listing.description}</p>
-                     <p>Price/per day:${listing.price}</p>
                        {
                          listing.rented
                          ?
@@ -31,14 +33,19 @@ class Keyboards extends Component {
                            Not Available
                          </Label>
                          :
-                         <Label as='a' color="yellow" ribbon>
+                         <Button as='a' color="yellow">
                            Rent!
-                         </Label>
+                         </Button>
                        }
                    </Card.Description>
                  </Card.Content>
+                 <Card.Content extra>
+                   <a>
+                     <Icon name='dollar sign' />
+                     {listing.price} per/day
+                   </a>
+                 </Card.Content>
                </Card>
-            </Link>
           );
         }
       })
