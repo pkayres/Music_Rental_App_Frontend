@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Redirect} from 'react-router'
-import { Card, Image, Button, Grid, Divider, Segment, Label, Icon, Header} from 'semantic-ui-react'
+import { Card, Image, Button, Grid, Divider, Segment, Label, Icon, Header, Popup, Rating} from 'semantic-ui-react'
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 
@@ -39,13 +39,13 @@ class ShowPage extends Component {
               return (
               <Card.Group>
                 <Card>
+                  <Card.Content>
+                    <Card.Header>{listing.instrument_name}</Card.Header>
+                  </Card.Content>
                     <Image src={listing.image} wrapped ui={false} />
-                    <Card.Content>
-                      <Card.Header>{listing.instrument_name}</Card.Header>
-                    </Card.Content>
                     <Card.Content extra>
                       <a>
-                        <Icon name='dollar sign' />
+                        <Icon color="green" name='dollar sign' />
                         {listing.price} per/day
                       </a>
                     </Card.Content>
@@ -55,6 +55,8 @@ class ShowPage extends Component {
                         <Card.Description>
                           <Header centered>Description</Header>
                           {listing.description}
+                          <Header centered> User notes</Header>
+                          {listing.user_notes}
                         </Card.Description>
                       </Card.Content>
                       <Card.Content extra>
@@ -63,13 +65,20 @@ class ShowPage extends Component {
                           ?
                           <Label color="red">Not Available</Label>
                           :
-                          this.props.currentUser !== null ?
+                          this.props.currentUser !== null
+                          ?
                           <Button color="yellow" onClick={() => this.rentClick(listing)}>Rent!</Button>
                           :
-                          null
+                          <Popup
+                            content='Sign up or create an account!'
+                            on='click'
+                            pinned
+                            trigger={<Button color="yellow" content='Rent!' />}
+                          />
                         }
                       </Card.Content>
                 </Card>
+
             </Card.Group>
           )
         }})

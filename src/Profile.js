@@ -128,17 +128,20 @@ class Profile extends Component {
             this.props.currentUser.listings.map(userListing => {
             return (
               <div>
-                <Link to ={`/listings/${userListing.id}`}>
+
                 <Card key={userListing.id}>
                   <Card.Content>
                     <Card.Header>{userListing.instrument_name}</Card.Header>
-                    <Image src={userListing.image} size='small'/>
+                    <div>
+                      <Link to ={`/listings/${userListing.id}`}>
+                        <Image src={userListing.image} size='small'/>
+                      </Link>
+                    </div>
                     <Card.Description>
-                      <p>Price: ${userListing.price}</p>
                         {
                           userListing.rented
                           ?
-                          <Label as='a' basic color="red" pointing>
+                          <Label as='a' basic color="red" ribbon>
                             Currently Rented
                           </Label>
                           :
@@ -148,9 +151,8 @@ class Profile extends Component {
                         }
                     </Card.Description>
                   </Card.Content>
+                  <Button floated='right' onClick={() => this.removeListing(userListing)} color="blue">Remove Listing</Button>
                 </Card>
-                </Link>
-                <Button onClick={() => this.removeListing(userListing)} color="blue">Remove Listing</Button>
               </div>
             )
             })

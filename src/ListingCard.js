@@ -23,33 +23,32 @@ class ListingCard extends Component {
     return (
         <Card onClick={this.handleClick} key={this.props.listing.id} >
             <Card.Content textAlign="center">
-              <Card.Header textAlign="center">{this.props.listing.instrument_name}</Card.Header>
-              <Image centered src={this.props.listing.image} size='small'/>
+              <Card.Header textAlign="center">{this.props.listing.instrument_name}</Card.Header><br></br>
+              <Image src={this.props.listing.image} size='small'/>
             <Card.Description textAlign="centered">
               <p>{this.props.listing.description}</p>
-
-              {
-                this.props.listing.rented
-                ?
-                <Label as='a' basic color="red" pointing>
-                  Not Available
-                </Label>
-                :
-                <Button color="yellow">
-                  Rent!
-                </Button>
-              }
-
             </Card.Description>
           </Card.Content>
+          <Card.Description>
+            {
+              this.props.listing.rented
+              ?
+              <Label as='a' basic color="red" ribbon="left">
+                Not Available
+              </Label>
+              :
+              <Label as='a' color="yellow" ribbon="left">
+                Rent
+              </Label>
+            }
+          </Card.Description>
           <Card.Content extra>
             <a>
-              <Icon name='dollar sign' />
+              <Icon color="green" name='dollar sign' />
               {this.props.listing.price} per/day
             </a>
           </Card.Content>
         </Card>
-
     );
   }
 

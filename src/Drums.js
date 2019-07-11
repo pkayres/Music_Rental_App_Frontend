@@ -17,36 +17,38 @@ class Drums extends Component {
         this.props.listings.map(listing => {
         if(listing.category === "drums"){
           return  (
-               <Card key={listing.id}>
-                 <Card.Content textAlign="center">
-                   <Card.Header textAlign="center">{listing.instrument_name}</Card.Header>
-                     <div>
-                       <Link to ={`/listings/${listing.id}`}>
-                         <Image centered src={listing.image} size='small'/>
-                       </Link>
-                     </div>
-                   <Card.Description textAlign="centered">
-                     <p>{listing.description}</p>
-                       {
-                         listing.rented
-                         ?
-                         <Label as='a' basic color="red" pointing>
-                           Not Available
-                         </Label>
-                         :
-                         <Button as='a' color="yellow">
-                           Rent!
-                         </Button>
-                       }
-                   </Card.Description>
-                 </Card.Content>
-                 <Card.Content extra>
-                   <a>
-                     <Icon name='dollar sign' />
-                     {listing.price} per/day
-                   </a>
-                 </Card.Content>
-               </Card>
+            <Card key={listing.id} >
+                <Card.Content textAlign="center">
+                  <Card.Header textAlign="center">{listing.instrument_name}</Card.Header><br></br>
+                    <div>
+                      <Link to ={`/listings/${listing.id}`}>
+                        <Image centered src={listing.image} size='small'/>
+                      </Link>
+                    </div>
+                <Card.Description textAlign="centered">
+                  <p>{listing.description}</p>
+                </Card.Description>
+              </Card.Content>
+              <Card.Description>
+                {
+                  listing.rented
+                  ?
+                  <Label as='a' basic color="red" ribbon="left">
+                    Not Available
+                  </Label>
+                  :
+                  <Label as='a' color="yellow" ribbon="left">
+                    Rent
+                  </Label>
+                }
+              </Card.Description>
+              <Card.Content extra>
+                <a>
+                  <Icon color="green" name='dollar sign' />
+                  {listing.price} per/day
+                </a>
+              </Card.Content>
+            </Card>
           );
         }
       })
