@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import ShowPage from './ShowPage'
 import { Card, Image, Button, Label, Icon, Header} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
-import './App.css'
+import ShowPage from './ShowPage'
 
 
-class ListingCard extends Component {
+class HomePageCard extends Component {
 
   handleClick = event => {
     fetch(`http://localhost:3000/listings/${this.props.listing.id}`, {
@@ -22,7 +21,7 @@ class ListingCard extends Component {
 
   render() {
     return (
-        <Card class="masonry grid"onClick={this.handleClick} key={this.props.listing.id} >
+        <Card onClick={this.handleClick} key={this.props.listing.id} >
             <Card.Content textAlign="center">
               <Card.Header textAlign="center" size="large">{this.props.listing.instrument_name}</Card.Header><br></br>
                 <Image src={this.props.listing.image} size="medium" rounded/>
@@ -62,4 +61,4 @@ class ListingCard extends Component {
 }
 
 
-export default ListingCard;
+export default HomePageCard;

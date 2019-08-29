@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Card, Segment, Fragment, Grid, Header, Search } from 'semantic-ui-react'
-import assets from './assets/images/banner.png'
 import { connect } from 'react-redux'
-import ListingCard from './ListingCard'
+import Assets from './Assets/images/banner.png'
+import HomePageCard from './HomePageCard'
 
 
 class MainContainer extends Component {
@@ -12,7 +12,7 @@ class MainContainer extends Component {
     return (
     <Grid columns={2} stackable className="fill-content">
       <Segment>
-          <img class="ui fluid image" src={assets}/>
+          <img class="ui fluid image" src={Assets}/>
 
           <div class="ui inverted stripe segment">
             <Header padded="very" size='huge' textAlign='center'>RENT FROM THOSE WHO KNOW THEIR INSTRUMENT BEST</Header>
@@ -27,7 +27,7 @@ class MainContainer extends Component {
             null
             :
             this.props.listings.map(listing => {
-              return <ListingCard  key={listing.id} listing={listing} history={this.props.history} />
+              return <HomePageCard  key={listing.id} listing={listing} history={this.props.history} />
             })
           }
         </Card.Group>

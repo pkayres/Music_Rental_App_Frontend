@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import assets from './assets/images/logo.png'
 import { Link, withRouter} from 'react-router-dom';
 import { Menu, Input, Button } from 'semantic-ui-react'
+import Assets from './Assets/images/logo.png'
 
 class NavBar extends Component {
 
@@ -11,7 +11,7 @@ class NavBar extends Component {
       <Menu fluid size='huge' secondary >
         <Menu.Item header>
           <Link to='/home'className="item">
-         <img src={assets} />
+         <img src={Assets} />
          </Link>
        </Menu.Item>
         <Menu.Item>

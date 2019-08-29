@@ -12,7 +12,7 @@ class CategoryCard extends Component {
 
         <Grid columns={2} stackable className="fill-content">
             <div class="ui inverted stripe segment">
-              <Header size='huge' textAlign='center'>GUITAR RENTALS</Header>
+              <Header size='huge' textAlign='center'>RENTALS</Header>
             </div>
           <Card.Group itemsPerRow={4} >
         {

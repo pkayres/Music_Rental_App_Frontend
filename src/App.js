@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom'
-import Login from './Login'
-import NavBar from './NavBar'
-import SignUp from './SignUp'
 import { connect } from 'react-redux'
 import { Grid, Header, Divider, Image, Segment } from 'semantic-ui-react'
+import SignUp from './SignUp'
+import NavBar from './NavBar'
+import Login from './Login'
 import MainContainer from './MainContainer'
 import Profile from './Profile'
 import ShowPage from './ShowPage'
 import NewListing from './NewListing'
-import './App.css'
 import CategoryCard from './CategoryCard'
 
 
