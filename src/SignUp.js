@@ -58,7 +58,6 @@ class SignUp extends Component {
       <Header size='huge'>Lets get you signed up!</Header>
       <br>
       </br>
-
       <Form size='large' onSubmit={this.handleSubmit}>
       <Form.Field >
         <label>Create Username:</label>

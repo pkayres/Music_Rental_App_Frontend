@@ -42,7 +42,7 @@ class ShowPage extends Component {
                   <Card.Content>
                     <Card.Header>{listing.instrument_name}</Card.Header>
                   </Card.Content>
-                    <Image src={listing.image} wrapped ui={false} />
+                    <Image centered src={listing.image} size='medium' rounded/>
                     <Card.Content extra>
                       <a>
                         <Icon color="green" name='dollar sign' />
@@ -53,9 +53,9 @@ class ShowPage extends Component {
                   <Card>
                       <Card.Content>
                         <Card.Description>
-                          <Header centered>Description</Header>
+                          <Header centered>DESCRIPTION</Header>
                           {listing.description}
-                          <Header centered> User notes</Header>
+                          <Header centered> USER NOTES</Header>
                           {listing.user_notes}
                         </Card.Description>
                       </Card.Content>
@@ -73,7 +73,7 @@ class ShowPage extends Component {
                             content='Sign up or create an account!'
                             on='click'
                             pinned
-                            trigger={<Button color="yellow" content='Rent!' />}
+                            trigger={<Button color="yellow" content='RENT!' />}
                           />
                         }
                       </Card.Content>

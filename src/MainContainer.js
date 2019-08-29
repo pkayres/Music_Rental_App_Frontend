@@ -13,12 +13,12 @@ class MainContainer extends Component {
     <Grid columns={2} stackable className="fill-content">
       <Segment>
           <img class="ui fluid image" src={assets}/>
-            <div class="ui inverted stripe segment">
-              <Header size='huge' textAlign='center'>Rent from those who know their instrument best</Header>
-            </div>
-            <div class="ui stripe segment">
-              <Header size='huge' textAlign='center'>Featured Rentals</Header>
-            </div>
+
+          <div class="ui inverted stripe segment">
+            <Header padded="very" size='huge' textAlign='center'>RENT FROM THOSE WHO KNOW THEIR INSTRUMENT BEST</Header>
+          </div><br></br>
+
+          <Header textAlign="center" size="huge">FEATURED RENTALS</Header><br></br>
 
           <Card.Group itemsPerRow={4}>
           {

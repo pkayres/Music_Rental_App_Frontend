@@ -6,7 +6,7 @@ const defaultState = {
   addedToUserRental: false
 }
 
-// reducer is used to control changes in state, what ever is returned from reducer becomes state
+
 function reducer (state= defaultState, action){
   switch(action.type){
     case "SET_CURRENT_USER":
@@ -34,7 +34,6 @@ function reducer (state= defaultState, action){
 
       return {...state, listings: match}
     case "SET_USER_RENTALS":
-    // debugger
       const rentals = action.payload.map(rent => {
             return rent.listing
         })
@@ -57,19 +56,38 @@ function reducer (state= defaultState, action){
         return listing.id !== action.payload.id
       })
       return {...state, userRentals: listingMatch}
+    case "CHANGE_LISTING_STATUS":
+      const listingFound = state.listings.map(listing => {
+        if(listing.id === action.payload.id){
+            listing.rented = false
+                return listing
+            }
+            return listing
+          })
+          return {...state, listings: listingFound}
+    case "DELETE_FROM_COLLECTION":
+      const listingRemove = state.listings.filter(listing => {
+        if(listing.id !== action.payload.id){
+          return listing
+        }
+      })
+      return {...state, listings: listingRemove}
     case "DELETE_LISTING":
-    const listingDel = state.currentUser.listings.filter(listing => {
-      if(listing.id !== action.payload.id){
-        return listing
-      }
-    })
-
-    // return {...state, listings: listingDel}
+      const listingDel = state.currentUser.listings.filter(listing => {
+        if(listing.id !== action.payload.id){
+          return listing
+        }
+      })
     return {...state, currentUser: {...state.currentUser, listings: listingDel}}
     case "NEW_LISTING":
       return {
           ...state,
           listings: [...state.listings, action.payload]
+      }
+    case "CREATE_NEW_LISTING":
+      return {
+        ...state,
+        currentUser: {...state.currentUser, listings: [...state.currentUser.listings, action.payload]}
       }
     default:
       return state

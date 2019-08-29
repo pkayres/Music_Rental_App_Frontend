@@ -16,69 +16,63 @@ class NavBar extends Component {
        </Menu.Item>
         <Menu.Item>
           <Link to='/home'className="item">
-            Home
+            HOME
           </Link>
         </Menu.Item>
       <Menu.Menu position="left" >
         <Menu.Item>
             <Link to='/guitars' className='item' >
-              Guitars
+              GUITARS
             </Link>
         </Menu.Item>
         <Menu.Item>
           <Link to='/basses'className='item' >
-            Basses
+            BASSES
           </Link>
         </Menu.Item>
         <Menu.Item>
           <Link to="/keyboards"className='item' >
-            Keyboards
+            KEYBOARDS
           </Link>
         </Menu.Item>
           <Menu.Item>
           <Link to="/brass"className='item' >
-            Brass
+            BRASS
           </Link>
         </Menu.Item>
         <Menu.Item>
           <Link to="/drums"className='item' >
-            Drums
+            DRUMS
           </Link>
         </Menu.Item>
-
 
       </Menu.Menu>
 
         {
           this.props.currentUser
-
           ?
-
           <Menu.Menu position="right">
               <Menu.Item>
 								<Link className="item" to={`/users/${this.props.currentUser.id}`}>
 									<img src={this.props.currentUser.image}/>
 								</Link>
               </Menu.Item>
-
 								<Menu.Item position="right" onClick={this.props.logOut}>
                   <Link to='/home'>
-  								  Log out
+  								  LOG OUT
                   </Link>
 								</Menu.Item>
 						</Menu.Menu>
-
-        :
-
+          :
           <Menu.Menu position="right">
             <Menu.Item >
               <Link className="item" to="/signup">
-                SignUp
+                SIGN UP
               </Link>
             </Menu.Item>
             <Menu.Item>
               <Link className="item" to="/login">
-                Login
+                LOG IN
               </Link>
             </Menu.Item>
           </Menu.Menu>

@@ -6,57 +6,55 @@ import { Form, Button, TextArea, Header } from 'semantic-ui-react'
 class NewListing extends Component {
 
 
-    state = {
-      user: this.props.currentUser !== null ? this.props.currentUser.id : null,
-      renter: null,
-      category: '',
-      rented: false,
-      image: '',
-      instrument_name: '',
-      description: '',
-      user_notes:'',
-      price: 0,
-    }
+  state = {
+    user: this.props.currentUser !== null ? this.props.currentUser.id : null,
+    renter: null,
+    category: '',
+    rented: false,
+    image: '',
+    instrument_name: '',
+    description: '',
+    user_notes:'',
+    price: 0,
+  }
 
-    handleChange = (event) => {
-      this.setState({
-        [event.target.name]: event.target.value
+  handleChange = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+  	fetch("http://localhost:3000/listings", {
+  		method: "POST",
+  		headers: {
+  			"Content-Type": "application/json",
+  			"Accepts": "application/json",
+  		},
+  		body: JSON.stringify({
+        "user_id": this.state.user,
+        "renter": this.state.renter,
+        "rented": this.state.rented,
+        "category": this.state.category,
+        "image": this.state.image,
+        "instrument_name": this.state.instrument_name,
+        "description": this.state.description,
+        "user_notes": this.state.user_notes,
+        "price": this.state.price
       })
-    }
+    })
+  	.then(res => res.json())
+  	.then(newListing => {
+  		  this.props.newListing(newListing)
+        this.props.createNew(newListing)
+        this.props.history.push(`/users/${newListing.user_id}`)
+  	})
+  }
 
-    handleSubmit = (event) => {
-      event.preventDefault();
-  		fetch("http://localhost:3000/listings", {
-  			method: "POST",
-  			headers: {
-  				"Content-Type": "application/json",
-  				"Accepts": "application/json",
-  			},
-  			body: JSON.stringify({
-          "user_id": this.state.user,
-          "renter": this.state.renter,
-          "rented": this.state.rented,
-          "category": this.state.category,
-          "image": this.state.image,
-          "instrument_name": this.state.instrument_name,
-          "description": this.state.description,
-          "user_notes": this.state.user_notes,
-          "price": this.state.price
-        })
-  		})
-  		.then(res => res.json())
-  		.then(newlisting => {
-  		    this.props.newListing(newlisting)
-          this.props.history.push(`/users/${newlisting.user_id}`)
-  		})
-  	}
-
-
-
-    render() {
+  render() {
       return (
         <div>
-
         <Header size='huge'>Create New Rental</Header>
         <br>
         </br>
@@ -114,6 +112,9 @@ function mapDispatchToProps(dispatch){
   return {
     newListing:(newListing) => {
       dispatch({ type: "NEW_LISTING", payload: newListing})
+    },
+    createNew:(newListing) => {
+      dispatch({ type: "CREATE_NEW_LISTING", payload: newListing})
     }
   }
 }

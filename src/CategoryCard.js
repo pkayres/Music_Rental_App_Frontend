@@ -1,33 +1,34 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {Link} from 'react-router-dom'
 import { Card, Image, Button, Grid, Label, Segment, Header, Icon } from 'semantic-ui-react'
 
-class Guitars extends Component {
+class CategoryCard extends Component {
 
 
   render() {
+    console.log(this.props)
     return (
+
         <Grid columns={2} stackable className="fill-content">
-          <Segment>
             <div class="ui inverted stripe segment">
-              <Header size='huge' textAlign='center'>Guitar Rentals </Header>
+              <Header size='huge' textAlign='center'>GUITAR RENTALS</Header>
             </div>
           <Card.Group itemsPerRow={4} >
         {
           this.props.listings.map(listing => {
-          if(listing.category === "guitars"){
+          if(listing.category === this.props.category){
             return  (
-
               <Card key={listing.id} >
                   <Card.Content textAlign="center">
                     <Card.Header textAlign="center">{listing.instrument_name}</Card.Header><br></br>
                       <div>
                         <Link to ={`/listings/${listing.id}`}>
-                          <Image centered src={listing.image} size='small'/>
+                          <Image centered src={listing.image} size='medium' rounded/>
                         </Link>
                       </div>
-                  <Card.Description textAlign="centered">
+                  <Card.Description textAlign="centered"><br></br>
+                    <Header size="small">DESCRIPTION</Header>
                     <p>{listing.description}</p>
                   </Card.Description>
                 </Card.Content>
@@ -45,21 +46,24 @@ class Guitars extends Component {
                   }
                 </Card.Description>
                 <Card.Content extra>
-                  <a>
-                    <Icon color="green" name='dollar sign' />
-                    {listing.price} per/day
-                  </a>
+                  {
+                    listing.rented
+                    ?
+                    null
+                    :
+                    <Header color="green" size="medium">
+                        ${listing.price} per/day </Header>
+
+                  }
                 </Card.Content>
               </Card>
-
-
             );
           }
         })
       }
 
       </Card.Group>
-      </Segment>
+
       </Grid>
     );
   }
@@ -79,4 +83,4 @@ function mapDispatchToProps(dispatch){
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Guitars);
+export default connect(mapStateToProps,mapDispatchToProps)(CategoryCard);

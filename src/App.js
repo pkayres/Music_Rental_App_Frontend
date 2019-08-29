@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import Login from './Login'
 import NavBar from './NavBar'
@@ -8,18 +7,14 @@ import { connect } from 'react-redux'
 import { Grid, Header, Divider, Image, Segment } from 'semantic-ui-react'
 import MainContainer from './MainContainer'
 import Profile from './Profile'
-import Guitars from './Guitars'
-import Basses from './Basses'
-import Brass from './Brass'
-import Keyboards from './Keyboards'
-import Drums from './Drums'
 import ShowPage from './ShowPage'
 import NewListing from './NewListing'
+import './App.css'
+import CategoryCard from './CategoryCard'
 
 
 
 class App extends Component {
-
 
   componentDidMount = () => {
     const token = localStorage.getItem('token')
@@ -40,23 +35,22 @@ class App extends Component {
 			})
 		}
       fetch('http://localhost:3000/listings')
-      .then(resp => resp.json())
-      .then(listings => {
+        .then(resp => resp.json())
+        .then(listings => {
          this.props.getListings(listings)
       })
       fetch('http://localhost:3000/ratings')
-      .then(resp => resp.json())
-      .then(ratings => {
+        .then(resp => resp.json())
+        .then(ratings => {
          this.props.getRatings(ratings)
       })
       fetch('http://localhost:3000/rents')
-      .then(resp => resp.json())
-      .then(rental => {
+        .then(resp => resp.json())
+        .then(rental => {
         this.props.setUserRentals(rental)
       })
 
 	}
-
 
 
   render(){
@@ -66,19 +60,17 @@ class App extends Component {
       <NavBar currentUser={this.props.currentUser} logOut={this.props.logOut}/>
 
         <Grid.Row centered>
-
-
           <Switch>
               <Route path="/listings/:id" component={ShowPage}/>
     					<Route path="/login" component={Login}/>
               <Route path="/signup" component={SignUp} />
               <Route path="/home" component={MainContainer}/>
               <Route path="/users/:id" component={Profile}/>
-              <Route path="/guitars" component={Guitars}/>
-              <Route path="/drums" component={Drums}/>
-              <Route path="/basses" component={Basses}/>
-              <Route path="/keyboards" component={Keyboards}/>
-              <Route path="/brass" component={Brass}/>
+              <Route path="/guitars" render={()=> <CategoryCard category="guitars"/>}/>
+              <Route path="/drums" render={()=> <CategoryCard category="drums"/>}/>
+              <Route path="/basses" render={()=> <CategoryCard category="basses"/>}/>
+              <Route path="/keyboards" render={()=> <CategoryCard category="keyboards"/>}/>
+              <Route path="/brass" render={()=> <CategoryCard category="brass"/>}/>
               <Route path="/newlisting" component={NewListing}/>
               <Route render={() => <Redirect to = "/home"/>}/>
     			</Switch>
@@ -86,9 +78,8 @@ class App extends Component {
       </Grid>
     );
   }
-} //End of Component
+}
 
-//Reading to state
 
 function mapStateToProps(state) {
   return {
@@ -97,8 +88,6 @@ function mapStateToProps(state) {
     ratings: state.ratings
   }
 }
-
-//adding to state
 
 function mapDispatchToProps(dispatch){
   return {

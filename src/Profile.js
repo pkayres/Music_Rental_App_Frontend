@@ -19,14 +19,12 @@ class Profile extends Component {
       modalOpen: true,
       rated: listing.user_id},
     )
-    //
   }
 
   handleClose = () => this.setState({ modalClose: false})
 
   handleChange = e => this.setState({ stars: e.target.value })
 
-  // handleCurrentUser = () => this.setState({ rater: this.props.currentUser.id })
 
   handleInput = (event) => {
     this.setState({
@@ -44,8 +42,10 @@ class Profile extends Component {
     })
     .then(response => response.json())
     .then(listing => {
-      this.props.deleteListing(userListing)}
-  )
+      this.props.deleteListing(userListing)
+      this.props.deleteFromCollection(userListing)
+    }
+    )
   }
 
   handleSubmit = (event) => {
@@ -63,10 +63,10 @@ class Profile extends Component {
         })
     }).then(response => response.json())
       .then(rating => {
-        console.log(rating)
          this.props.addRating(rating);
          this.setState({ modalOpen: false, modalClose: true})
          this.props.deleteFromRentals(currentListing)
+         this.props.changeListingStatus(currentListing)
       })
     fetch(`http://localhost:3000/rents/${currentListing.rent.id}`, {
       method: 'DELETE'
@@ -76,14 +76,11 @@ class Profile extends Component {
 
   render() {
     const { rating } = this.state
-    // debugger
     return (
       <div>
       {
         this.props.currentUser !== null
-
         ?
-
       <Grid columns={2} centered>
         <Grid.Column width={6}>
           <div class="ui card">
@@ -96,10 +93,10 @@ class Profile extends Component {
           </div>
           <div>
           <Link to="/newlisting" >
-            <Button color="green">Create Listing</Button>
+            <Button color="green">CREATE LISTING</Button>
           </Link>
           </div>
-          <Header size='huge'>Owner Reviews:</Header>
+          <Header size='huge'>OWNER REVIEWS</Header>
           <Segment raised style={{ overflow: 'auto', maxHeight: '27em' }}>
         {
           this.props.currentUser.received_ratings.map(ratings => {
@@ -109,7 +106,7 @@ class Profile extends Component {
                   <Card.Content>
                     <Card.Description>
                       <p>{ratings.name}</p>
-                      <p>Review: {ratings.review}</p>
+                      <p>REVIEW {ratings.review}</p>
                       <Rating icon='star'defaultRating={ratings.stars} maxRating={5} disabled/>
                     </Card.Description>
                   </Card.Content>
@@ -121,14 +118,13 @@ class Profile extends Component {
       </Segment>
     	</Grid.Column>
       <Grid.Column>
-        <Header size='huge'>Currently Leasing:</Header>
+        <Header size='huge'>CURRENTLY LEASING</Header>
         <Segment raised style={{ overflow: 'auto', maxWidth: '40em', maxHeight: '50em' }}>
           <Card.Group centered>
           {
             this.props.currentUser.listings.map(userListing => {
             return (
               <div>
-
                 <Card key={userListing.id}>
                   <Card.Content>
                     <Card.Header>{userListing.instrument_name}</Card.Header>
@@ -142,16 +138,16 @@ class Profile extends Component {
                           userListing.rented
                           ?
                           <Label as='a' basic color="red" ribbon>
-                            Currently Rented
+                            CURRENTLY RENTED
                           </Label>
                           :
                           <Label as='a' color="yellow" ribbon>
-                            Available
+                            AVAILABLE
                           </Label>
                         }
                     </Card.Description>
                   </Card.Content>
-                  <Button floated='right' onClick={() => this.removeListing(userListing)} color="blue">Remove Listing</Button>
+                  <Button floated='right' onClick={() => this.removeListing(userListing)} color="blue">REMOVE LISTING</Button>
                 </Card>
               </div>
             )
@@ -161,7 +157,7 @@ class Profile extends Component {
         </Segment>
           </Grid.Column>
           <Divider horizontal></Divider>
-          <Header size='huge'>Currently Renting:</Header>
+          <Header size='huge'>CURRENTLY RENTING</Header>
            <Card.Group >
             {
               this.props.currentUser !== null
@@ -177,7 +173,7 @@ class Profile extends Component {
                       <Card.Header>{userRental.instrument_name}</Card.Header>
                       <Card.Description>
                         <Modal
-                            trigger={<Button onClick={() => this.handleOpen(userRental)}>Return</Button>}
+                            trigger={<Button color="red" onClick={() => this.handleOpen(userRental)}>RETURN</Button>}
                             open={this.state.modalOpen}
                             onClose={this.handleClose}
                             dimmer
@@ -203,7 +199,7 @@ class Profile extends Component {
                                       <label>Review: </label>
                                         <TextArea placeholder="Review" name="review" required="required" value={this.state.review} onChange={this.handleInput} />
                                       </Form.Field>
-                                      <Button  type="submit">Submit </Button>
+                                      <Button  type="submit">SUBMIT </Button>
                                   </Form>
                                 </Modal.Description>
                             </Modal.Content>
@@ -227,9 +223,9 @@ class Profile extends Component {
     }
 
     </div>
-  ) // return of component
+  )
   }
-} // end of the component
+}
 
 
 
@@ -255,6 +251,12 @@ function mapDispatchToProps(dispatch){
     },
     deleteListing: (listing) => {
       dispatch({ type: "DELETE_LISTING", payload: listing})
+    },
+    changeListingStatus: (listing) => {
+      dispatch({type:"CHANGE_LISTING_STATUS", payload: listing})
+    },
+    deleteFromCollection: (listing) => {
+      dispatch({type: "DELETE_FROM_COLLECTION", payload: listing})
     }
   }
 }
